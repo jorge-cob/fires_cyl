@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useContext } from "react";
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -44,6 +43,7 @@ export default function StickyHeadTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const data = props.data;
+  console.log("data", data);
 
   // mis columns:
   function createColumns(data) {
@@ -59,18 +59,34 @@ export default function StickyHeadTable(props) {
       );
       console.log("propertyNamesObjectsArray", propertyNamesObjectsArray);
     
-    return propertyNamesObjectsArray
+    return {propertyNamesObjectsArray} 
   }
   const columns = createColumns(data);
  
 
   // mis rows:
-  function createRows(data) {
+  function addIdToFires(data) {
     for(let i = 0; i < data.length; i++) {
       data[i].id = i;
     }
   }
-  const rows = createRows(data);
+
+  function transformArrayToObject(objectValues) {
+    const objectfromArray = objectValues.reduce((obj, item) => {
+      obj[item] = ''; 
+      return obj;
+    }, {});
+    return objectfromArray;
+  }
+
+  const rows = (data) => {
+    addIdToFires(data);
+    for(let i = 0; i < data.length; i++) {
+      const firesObjectsValues = Object.values(data[i]);
+      const objectOfValues = transformArrayToObject(firesObjectsValues);
+      return objectOfValues;
+    };
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
