@@ -1,15 +1,16 @@
 import React from "react";
 import "../stylesheet/layout/_main.scss";
-import DataTable from "./DataTable"
+import StickyHeadTable from "./StickyHeadTable";
+
 
 function Main(props) {
     return (
      <>
       <main>
-        <section>
-        <DataTable
-            data={props.data}
-        />
+        <section className="section">
+            <h1>Lista de incendios</h1>
+            <StickyHeadTable data={props.data}/>∫
+
         </section>
       </main>
      </>

@@ -1,38 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import Header from "./Header";
 import Main from "./components/Main";
 // import Footer from "./Footer";
-import './App.css';
+import './stylesheet/App.scss';
+import getDataFromApi from "./services/getDataFromApi";
 
-const fireList = [
-  {
-   id: 456,
-   provincia: {0: "BURGOS" },
-   causa_probable: "ACCIDENTAL (LÍNEAS ELÉCTRICAS)",
-   situacion_actual: "EXTINGUIDO",
-   nivel_máximo_alcanzado: 3,
-   localizacion: 654,
-  }, 
-
-  {
-   id: 723,
-   provincia: {0: "LEÓN" },
-   causa_probable: "ACCIDENTAL (LÍNEAS ELÉCTRICAS)",
-   situacion_actual: "EXTINGUIDO",
-   nivel_máximo_alcanzado: 3,
-   localizacion: 456,
-  }
- ]
 
 function App() {
+  const [fires, setFires] = useState([]);
 
-  const data = {nodes: fireList};
+  useEffect(() => {
+    if (fires.length === 0) {
+      getDataFromApi().then((firesData) => {
+        setFires(firesData);
+      });
+    }
+  }, []); // habrá que hacer aquí algo???
   
   return (
     <>
       {/* <Header/> */}
       <Main
-        data={data}
+        data={fires}
       />
       {/* <Footer/> */}
     </>
