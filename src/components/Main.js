@@ -1,16 +1,24 @@
 import React from "react";
 import "../stylesheet/layout/_main.scss";
 import StickyHeadTable from "./StickyHeadTable";
+import Map from "./Map";
 
 
 function Main(props) {
     return (
      <>
-      <main>
+      <main className="main">
         <section className="section">
-            <h1>Lista de incendios</h1>
-            <StickyHeadTable data={props.data}/>∫
-
+            <h2 className="subtitle">Tabla de incendios</h2>
+            <div className="content">
+                 {/* <StickyHeadTable data={props.data}/>∫ */}
+            </div>
+        </section>
+        <section className="section">
+            <h2 className="subtitle">Mapa de incendios</h2>
+            <div className="content">
+                <Map data={props.data} />
+            </div>
         </section>
       </main>
      </>

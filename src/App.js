@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-// import Header from "./Header";
+import Header from "./components/Header";
 import Main from "./components/Main";
-// import Footer from "./Footer";
+import Footer from "./components/Footer";
 import './stylesheet/App.scss';
-import getDataFromApi from "./services/getDataFromApi";
+import getDataFromCyLapi from "./services/getDataFromCyLapi";
 
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     if (fires.length === 0) {
-      getDataFromApi().then((firesData) => {
+      getDataFromCyLapi().then((firesData) => {
         setFires(firesData);
       });
     }
@@ -19,11 +19,11 @@ function App() {
   
   return (
     <>
-      {/* <Header/> */}
+      <Header/>
       <Main
         data={fires}
       />
-      {/* <Footer/> */}
+      <Footer/>
     </>
   );
 }

@@ -51,13 +51,13 @@ export default function StickyHeadTable(props) {
     propertyNamesArray.unShift("id");
     console.log("el unShift funciona", propertyNamesArray);
     const propertyNamesObjectsArray = propertyNamesArray.map((propertyName) => ({
-      id: propertyName,
-      label: propertyName[0].toUpperCase() + propertyName.slice(1).replace(/_/g, " "),
-      minWidth: 170,
-      align: 'right',
+        id: propertyName,
+        label: propertyName[0].toUpperCase() + propertyName.slice(1).replace(/_/g, " "),
+        minWidth: 170,
+        align: 'right',
       })
-      );
-      console.log("propertyNamesObjectsArray", propertyNamesObjectsArray);
+    );
+    console.log("propertyNamesObjectsArray", propertyNamesObjectsArray);
     
     return {propertyNamesObjectsArray} 
   }
