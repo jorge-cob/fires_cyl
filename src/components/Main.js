@@ -3,7 +3,7 @@ import "../stylesheet/layout/_main.scss";
 import StickyHeadTable from "./StickyHeadTable";
 import FiresMap from "./map/FiresMap";
 import getDataFromCyLapi from "../services/getDataFromCyLapi";
-import coordinates from "../utils/coordinates";
+import coordinates from "../utils/utils";
 
 function createColumns(firesData) {
     const propertyNamesArray = Object.keys(firesData[0]);
@@ -35,13 +35,13 @@ function Main(props) {
 
         return()=>clearInterval(interval)
         
-    }, []); // habrá que hacer aquí algo???
+    }, []); 
     
-    // //construyendo las coordenadas para pasar por props al FireMap
-    // const filteredFires = (dataFiltered) => {
-    //     coordinates(dataFiltered);
-    // }
+    // array de coordenadas de los incendios filtrados para pasar a FireMap
+    //const filteredFires = coordinates(dataFiltered);
     const coords = [41.65518, -4.72372];
+
+    // OJO!! FALTA METERLE LA SIGUIENTE PROP A FIRESMAP: filteredFires={filteredFires}
 
     return (
      <>
@@ -56,7 +56,7 @@ function Main(props) {
             <h2 className="subtitle">Mapa de incendios</h2>
             <div className="content">
               <div id="map">
-                <FiresMap  coords={coords}/>
+                <FiresMap  coords={coords} />
               </div>                
             </div>
         </section>
