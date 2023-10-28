@@ -13,3 +13,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.map-container {
+  height: 400px;
+  width: 100%;
+    @media (min-width: 736px) {
+      height: 300px;
+    }
+    @media (min-width: 1024px) {
+      height: 200px;
+    }
+}
+.leaflet-container {
+  width: 100%;
+  height: 70vh;
+}
