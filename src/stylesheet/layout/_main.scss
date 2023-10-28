@@ -1,14 +1,14 @@
 @import "../core/variables";
 .main {
   height: 100vh;
-  width: 100vw;
+  // width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: center;
   border: solid grey;
-  margin-left: 10px;
-  margin-right:10px;
+  // margin-left: 10px;
+  // margin-right:10px;
   
   &__subtitle {
 
@@ -16,21 +16,23 @@
   }
 }
 .section {
-    height: 200px;
-    width: 95%;
+    height: 300px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border: solid blue;
-    margin-bottom: 20px;
+    margin-top: 20px;
     @media (min-width: 736px) {
         height: 315px;
-        margin-bottom: 30px;
+        width: 95%;
+        margin-top: 30px;
     }
    @media (min-width: 1024px) {
-       height: 430px;
-       margin-bottom: 35px;
+       height: 600px;
+       width: 95%;
+       margin-top: 35px;
     }
 }
 .content {
@@ -48,8 +50,8 @@
   }
 
   #map {
-    width: 100vw;
-    height: 70vh;
+    width: 100%;
+    height: 100%;
   }
 
   

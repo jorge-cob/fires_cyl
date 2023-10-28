@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "../stylesheet/layout/_main.scss";
 import StickyHeadTable from "./StickyHeadTable";
 import FiresMap from "./map/FiresMap";
-import getDataFromOsMapi from "../services/getDataFromOsMapi";
 import getDataFromCyLapi from "../services/getDataFromCyLapi";
+import coordinates from "../utils/coordinates";
 
 function createColumns(firesData) {
     const propertyNamesArray = Object.keys(firesData[0]);
@@ -36,15 +36,11 @@ function Main(props) {
         return()=>clearInterval(interval)
         
     }, []); // habrá que hacer aquí algo???
-
-
-    // const coordinates = props.data.map(item => {
-    //     const location = `${item.termino_municipal}, ${item.provincia}`;
-    //     const coordinates = getDataFromOsMapi(location)
     
-    //     return coordinates;
-    // });
-
+    // //construyendo las coordenadas para pasar por props al FireMap
+    // const filteredFires = (dataFiltered) => {
+    //     coordinates(dataFiltered);
+    // }
     const coords = [41.65518, -4.72372];
 
     return (
@@ -59,8 +55,8 @@ function Main(props) {
         <section className="section">
             <h2 className="subtitle">Mapa de incendios</h2>
             <div className="content">
-              <div id="#map">
-                <FiresMap data={props.data} coords={coords}/>
+              <div id="map">
+                <FiresMap  coords={coords}/>
               </div>                
             </div>
         </section>

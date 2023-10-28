@@ -6,8 +6,10 @@ import "../../stylesheet/layout/_firesMap.scss";
 
 
 
+
 function FiresMap(props) {
   const position = props.coords;
+  const filteredData = props.filteredData;
 
     return (
       <>  
