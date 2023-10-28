@@ -42,6 +42,7 @@ function Main(props) {
     const coords = [41.65518, -4.72372];
 
     // OJO!! FALTA METERLE LA SIGUIENTE PROP A FIRESMAP: filteredFires={filteredFires}
+  
 
     return (
      <>

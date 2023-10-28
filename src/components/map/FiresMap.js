@@ -11,7 +11,15 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
 function FiresMap(props) {
   const position = props.coords;
-  const filteredFires = props.filteredFires;
+  const coordinates = props.coordinates;
+  const filteredFires = props.filteredFires; //array de arrays de coordenadas
+  const isNotFilteredFires = false;
+  
+  if(filteredFires.length !== 0) {
+    isNotFilteredFires = true;
+  } else {
+    isNotFilteredFires = false;
+  }
 
   let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -20,6 +28,22 @@ function FiresMap(props) {
 
   L.Marker.prototype.options.icon = DefaultIcon;
 
+const multipleMarkers = (filteredFires) => {
+    filteredFires.forEach(item => {
+      return (
+        <>
+          <Marker
+            position={item}
+            icon={DefaultIcon}
+          > 
+            <Popup>Holiii</Popup>
+          </Marker>
+        </>
+      )
+    })
+  }
+
+
     return (
       <>  
         <MapContainer center={[40.4165, -3.70256]} zoom={8}> 
@@ -27,12 +51,16 @@ function FiresMap(props) {
             attribution='&copy; <a href="https://www.osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
           />
-          <Marker
-            position={[40.4165, -3.70256]}
-            icon={DefaultIcon}
-          > 
-            <Popup>Holiii</Popup>
-          </Marker>
+          {isNotFilteredFires ? 
+            <Marker
+              position={[40.4165, -3.70256]}
+              icon={DefaultIcon}
+            > 
+              <Popup>Holiii</Popup>
+            </Marker>
+            :
+             multipleMarkers(filteredFires)  //NO ESTOY SEGURA DE Q PUEDA METER AQUÍ UNA FUNCIÓN ASÍ, QUIZA SIN PARENTESIS
+          }
         </MapContainer>
       </>
     )
