@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, createContext } from 'react';
 import axios from 'axios';
-import { filterFires, filterGenerator } from '../utils/utils';
+import { filterFires, filterGenerator, locationsGenerator } from '../utils/utils';
 
 const APIContext = createContext();
 
@@ -16,15 +16,46 @@ function getInitialFiltersState() {
   return filters ? JSON.parse(filters) : loadInitialFilters();
 }
 
+function coordinatesGenerator(locations) {
+    const coordinates = [];
+    locations.forEach((location) => {
+        async function fetchDataOsMapi(location) {
+            const encodedLocation = encodeURIComponent(location);
+            const apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodedLocation}`;
+                
+            try {
+              const { data } = await axios.get(apiUrl);
+              if (data.length > 0) {
+                console.log("api OPM working", data)
+                const firstResult = data[0];
+                const latitude = parseFloat(firstResult.lat);
+                const longitude = parseFloat(firstResult.lon);
+                console.log(`Coordinates: Latitude ${latitude}, Longitude ${longitude}`);
+                const fireCoordinates = [latitude, longitude];
+                coordinates.push(fireCoordinates);
+              }
+            } catch (error) {
+              console.error(error);
+            };
+        }
+        fetchDataOsMapi(location);
+    });
+    return coordinates;
+
+}// devuelve array de arrays con las coordenadas
+
+
 export function APIContextProvider({ children }) {
   const [fires, setFires] = useState([]);
   const [fireCount, setFireCount] = useState(0);
   const [filtersWithOptions, setFiltersWithOptions] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState(getInitialFiltersState)
   const [filteredFires, setFilteredFires] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [coordinates, setCoordinates] = useState([]); 
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchDataCyL() {
       const { data } = await axios.get(
         `https://analisis.datosabiertos.jcyl.es/api/explore/v2.1/catalog/datasets/incendios-forestales/records?limit=100&offset=0&timezone=UTC&include_links=false&include_app_metas=false`
       );
@@ -33,14 +64,17 @@ export function APIContextProvider({ children }) {
       setFiltersWithOptions(filterGenerator(filterFields, data.results));
       setFilteredFires(filterFires(data.results, selectedFilters));
     }
-    fetchData();
-  }, [, selectedFilters]); // por qué se pone esa coma al principio del array?
-
+    fetchDataCyL();
+  }, [, selectedFilters]); 
 
   useEffect(() => {
     localStorage.setItem('filters', JSON.stringify(selectedFilters))
   }, [selectedFilters])
 
+  useEffect(() => {
+    setLocations(locationsGenerator(filteredFires.length > 0 ? filteredFires : fires)); 
+    setCoordinates(coordinatesGenerator(locations));
+  }, [,selectedFilters])
   return (
     <APIContext.Provider
       value={{
@@ -49,7 +83,8 @@ export function APIContextProvider({ children }) {
         fireCount,
         filtersWithOptions,
         selectedFilters,
-        setSelectedFilters
+        setSelectedFilters,
+        coordinates,
       }}
     >
       {children}

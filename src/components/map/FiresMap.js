@@ -6,20 +6,14 @@ import 'leaflet/dist/leaflet-src';
 import "../../stylesheet/layout/_firesMap.scss";
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import { useAPI } from '../../services/apiContext';
 
 
 
-function FiresMap(props) {
-  const position = props.coords;
-  const coordinates = props.coordinates;
-  const filteredFires = props.filteredFires; //array de arrays de coordenadas
-  const isNotFilteredFires = false;
-  
-  // if(filteredFires.length !== 0) {
-  //   isNotFilteredFires = true;
-  // } else {
-  //   isNotFilteredFires = false;
-  // }
+function FiresMap() {
+  const { coordinates } = useAPI();
+  // const filteredFires = props.filteredFires; //array de arrays de coordenadas
+  // const isFilteredFires = filteredFires > 0 ? true : false;
 
   let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -28,39 +22,41 @@ function FiresMap(props) {
 
   L.Marker.prototype.options.icon = DefaultIcon;
 
-// const multipleMarkers = (filteredFires) => {
-//     filteredFires.forEach(item => {
-//       return (
-//         <>
-//           <Marker
-//             position={item}
-//             icon={DefaultIcon}
-//           > 
-//             <Popup>Holiii</Popup>
-//           </Marker>
-//         </>
-//       )
-//     })
-//   }
+  const markers = (coordinates) => {
+      // coordinates?.forEach(item => {
+      //   return (
+      //     <>
+      //       <Marker
+      //         position={item}
+      //         icon={DefaultIcon}
+      //       > 
+      //       </Marker>
+      //     </>
+      //   )
+      // });
+  //PROBANDO UNO SOLO Q VENGA DEL CONTEXT:
+      if(coordinates) {
+        return (
+          <>
+            <Marker
+              position={coordinates[0]}
+              icon={DefaultIcon}
+            > 
+            </Marker>
+          </>
+        )
+      };
+    }
 
 
     return (
       <>  
-        <MapContainer center={[40.4165, -3.70256]} zoom={8}> 
+        <MapContainer center={[41.754444, -4.781944]} zoom={7}> 
           <TileLayer
             attribution='&copy; <a href="https://www.osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
           />
-          {/* {isNotFilteredFires ?  */}
-            <Marker
-              position={[40.4165, -3.70256]}
-              icon={DefaultIcon}
-            > 
-              <Popup>Holiii</Popup>
-            </Marker>
-            :
-             {/* multipleMarkers(filteredFires)  //NO ESTOY SEGURA DE Q PUEDA METER AQUÍ UNA FUNCIÓN ASÍ, QUIZA SIN PARENTESIS
-          } */}
+        {markers(coordinates)}
         </MapContainer>
       </>
     )

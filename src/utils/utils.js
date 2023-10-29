@@ -1,15 +1,27 @@
 
-import getDataFromOsMapi from "../services/getDataFromOsMapi";
+// import getDataFromOsMapi from "../services/getDataFromOsMapi";
 
-const coordinates = (data) => { 
-    data.map(item => {
-        const location = `${item.termino_municipal}, ${item.provincia}`;
-        const coordinates = getDataFromOsMapi(location)
+// const coordinates = (data) => { 
+//     data.map(item => {
+//         const location = `${item.termino_municipal}, ${item.provincia}`;
+//         const coordinates = getDataFromOsMapi(location)
     
-        return coordinates; // devuelve array de arrays con las coordenadas
-    });
+//         return coordinates; // devuelve array de arrays con las coordenadas
+//     });
+// }
+// export default coordinates;
+
+export function locationsGenerator(data) {
+  const locations = [];
+  data.forEach(obj => {
+      const location = `${obj.termino_municipal}, ${obj.provincia}`;
+      locations.push(location);
+  });  
+
+  return locations; 
 }
-export default coordinates;
+
+
 
 export const filterGenerator = (filterFields, firesData) => {
     const filterArray = [];

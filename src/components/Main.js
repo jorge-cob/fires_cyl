@@ -5,39 +5,21 @@ import StickyHeadTable from "./StickyHeadTable";
 import FiresMap from "./map/FiresMap";
 import { columnGenerator } from '../utils/utils';
 import { useAPI } from '../services/apiContext';
-import getDataFromCyLapi from "../services/getDataFromCyLapi";
-import coordinates from "../utils/utils";
-
-function createColumns(firesData) {
-    const propertyNamesArray = Object.keys(firesData[0]);
-    const propertyNamesObjectsArray = propertyNamesArray.map((propertyName) => ({
-        id: propertyName,
-        label: propertyName[0].toUpperCase() + propertyName.slice(1).replace(/_/g, " "),
-        minWidth: 170,
-        align: 'right',
-      })
-    );
-    
-    return propertyNamesObjectsArray
-  }
 
 function Main(props) {
-    const { filteredFires } = useAPI();
+    const { filteredFires, fires, coordinates } = useAPI();
     const [columns, setColumns] = useState([]);
 
+    //por qué?
     useEffect(() => {
         if (filteredFires.length > 0) {
             setColumns(columnGenerator(filteredFires))
         }
     }, [filteredFires])
     
+    // NECESITO AQUÍ OTRO USEEFFECT PARA EL MAPA??
 
-    
-    // array de coordenadas de los incendios filtrados para pasar a FireMap
-    //const filteredFires = coordinates(dataFiltered);
-    const coords = [41.65518, -4.72372];
-
-    // OJO!! FALTA METERLE LA SIGUIENTE PROP A FIRESMAP: filteredFires={filteredFires}
+    //quitar las props!!
   
 
     return (
@@ -47,13 +29,14 @@ function Main(props) {
             <h2 className="subtitle">Tabla de incendios</h2>
             <div className="content">
                 <Filters  />
-                <StickyHeadTable data={filteredFires} columns={columns} />             </div>
+                <StickyHeadTable data={filteredFires} columns={columns} />            
+            </div>
         </section>
         <section className="section">
             <h2 className="subtitle">Mapa de incendios</h2>
             <div className="content">
               <div id="map">
-                <FiresMap  coords={coords} />
+                <FiresMap  />
               </div>                
             </div>
         </section>
