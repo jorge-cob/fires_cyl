@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../stylesheet/layout/_main.scss";
+import Filters from './Filters';
 import StickyHeadTable from "./StickyHeadTable";
 import FiresMap from "./map/FiresMap";
+import { columnGenerator } from '../utils/utils';
+import { useAPI } from '../services/apiContext';
 import getDataFromCyLapi from "../services/getDataFromCyLapi";
 import coordinates from "../utils/utils";
 
@@ -19,23 +22,16 @@ function createColumns(firesData) {
   }
 
 function Main(props) {
-    const [fires, setFires] = useState([]);
+    const { filteredFires } = useAPI();
     const [columns, setColumns] = useState([]);
-    
-    useEffect(() => {
-        getDataFromCyLapi().then((firesData) => {
-            setFires(firesData);
-            setColumns(createColumns(firesData))
-        });
-        const interval = setInterval(() => {
-            getDataFromCyLapi().then((firesData) => {
-                setFires(firesData);
-            });
-        }, 5000)
 
-        return()=>clearInterval(interval)
-        
-    }, []); 
+    useEffect(() => {
+        if (filteredFires.length > 0) {
+            setColumns(columnGenerator(filteredFires))
+        }
+    }, [filteredFires])
+    
+
     
     // array de coordenadas de los incendios filtrados para pasar a FireMap
     //const filteredFires = coordinates(dataFiltered);
@@ -50,8 +46,8 @@ function Main(props) {
         <section className="section">
             <h2 className="subtitle">Tabla de incendios</h2>
             <div className="content">
-            {/* <StickyHeadTable data={fires} columns={columns}/>  */}
-            </div>
+                <Filters  />
+                <StickyHeadTable data={filteredFires} columns={columns} />             </div>
         </section>
         <section className="section">
             <h2 className="subtitle">Mapa de incendios</h2>
