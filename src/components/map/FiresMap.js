@@ -15,11 +15,11 @@ function FiresMap(props) {
   const filteredFires = props.filteredFires; //array de arrays de coordenadas
   const isNotFilteredFires = false;
   
-  if(filteredFires.length !== 0) {
-    isNotFilteredFires = true;
-  } else {
-    isNotFilteredFires = false;
-  }
+  // if(filteredFires.length !== 0) {
+  //   isNotFilteredFires = true;
+  // } else {
+  //   isNotFilteredFires = false;
+  // }
 
   let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -28,20 +28,20 @@ function FiresMap(props) {
 
   L.Marker.prototype.options.icon = DefaultIcon;
 
-const multipleMarkers = (filteredFires) => {
-    filteredFires.forEach(item => {
-      return (
-        <>
-          <Marker
-            position={item}
-            icon={DefaultIcon}
-          > 
-            <Popup>Holiii</Popup>
-          </Marker>
-        </>
-      )
-    })
-  }
+// const multipleMarkers = (filteredFires) => {
+//     filteredFires.forEach(item => {
+//       return (
+//         <>
+//           <Marker
+//             position={item}
+//             icon={DefaultIcon}
+//           > 
+//             <Popup>Holiii</Popup>
+//           </Marker>
+//         </>
+//       )
+//     })
+//   }
 
 
     return (
@@ -51,7 +51,7 @@ const multipleMarkers = (filteredFires) => {
             attribution='&copy; <a href="https://www.osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
           />
-          {isNotFilteredFires ? 
+          {/* {isNotFilteredFires ?  */}
             <Marker
               position={[40.4165, -3.70256]}
               icon={DefaultIcon}
@@ -59,8 +59,8 @@ const multipleMarkers = (filteredFires) => {
               <Popup>Holiii</Popup>
             </Marker>
             :
-             multipleMarkers(filteredFires)  //NO ESTOY SEGURA DE Q PUEDA METER AQUÍ UNA FUNCIÓN ASÍ, QUIZA SIN PARENTESIS
-          }
+             {/* multipleMarkers(filteredFires)  //NO ESTOY SEGURA DE Q PUEDA METER AQUÍ UNA FUNCIÓN ASÍ, QUIZA SIN PARENTESIS
+          } */}
         </MapContainer>
       </>
     )
