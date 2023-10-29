@@ -1,15 +1,16 @@
-import React from "react";
-import Filter from "./Filter";
+import React from 'react';
+import Filter from './Filter';
+import { nanoid } from 'nanoid';
+import { useAPI } from '../services/apiContext';
 
 function Filters() {
-//TODAVÍA NO SÉ CÓMO SE RELACIONA CON LA TABLA Y TENGO Q PENSAR LAS PROPS
+    const { filtersWithOptions } = useAPI();
     return (
-        <>
-            <Filter/>
-            <Filter/>
-            <Filter/>
-            <Filter/>
-        </>
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+            {filtersWithOptions.map((filter) => (
+                <Filter key={nanoid()} data={filter} />
+            ))}
+        </div>
     )
 }
 export default Filters;

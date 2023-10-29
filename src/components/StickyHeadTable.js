@@ -9,30 +9,8 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { nanoid } from 'nanoid';
 
-const columns = [
-  { id: 'termino_municipal', label: 'Municipio', minWidth: 170 },
-  { id: 'provincia', label: 'Provincia', minWidth: 100 },
-  {
-    id: 'situacion_actual',
-    label: 'Situación actual',
-    minWidth: 170,
-    align: 'right',
-  },
-  {
-    id: 'causa_probable',
-    label: 'Causa probable',
-    minWidth: 170,
-    align: 'right',
-  },
-  {
-    id: 'nivel_maximo_alcanzado',
-    label: 'Nivel máximo alcanzado',
-    minWidth: 170,
-    align: 'right',
-  },
-];
 
-export default function StickyHeadTable({ fires }) {
+export default function StickyHeadTable({ data, columns }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -41,7 +19,7 @@ export default function StickyHeadTable({ fires }) {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
+    setRowsPerPage(+event.target.value);  //uy el +event no lo conozco
     setPage(0);
   };
 
@@ -63,7 +41,7 @@ export default function StickyHeadTable({ fires }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {fires.length > 1 && fires
+            {data.length && data
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
@@ -87,7 +65,7 @@ export default function StickyHeadTable({ fires }) {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={fires.length}
+        count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

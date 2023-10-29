@@ -1,33 +1,40 @@
-//ESTE ES EL COMPONENTE DE DEMO DE MATERIAL UI PARA LOS SELECTS Q VOY A UTILIZAR
+import React from 'react';
 
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function Filter() {
-  const [age, setAge] = React.useState('');
+import { useAPI } from '../services/apiContext';
+
+export default function Filter({ data }) {
+  const { selectedFilters, setSelectedFilters } = useAPI();
+
+  //me lío aquí:
+  const filterName = Object.keys(data)[0]; 
+  const storedFilterValue = selectedFilters[filterName];
+  const valueSet = Object.values(data)[0];
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setSelectedFilters({...selectedFilters, [filterName]: event.target.value})
   };
 
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label">{filterName}</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
-          label="Age"
+          value={storedFilterValue}
+          label={filterName}
           onChange={handleChange}
         >
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+           <MenuItem value="none" key="none">Ninguno</MenuItem>
+           {valueSet.map((value) => (
+            <MenuItem value={value} key={value}>{value}</MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Box>
