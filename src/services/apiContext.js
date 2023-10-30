@@ -39,6 +39,7 @@ function coordinatesGenerator(locations) {
             };
         }
         fetchDataOsMapi(location);
+       
     });
     return coordinates;
 
@@ -51,8 +52,12 @@ export function APIContextProvider({ children }) {
   const [filtersWithOptions, setFiltersWithOptions] = useState([]);
   const [selectedFilters, setSelectedFilters] = useState(getInitialFiltersState)
   const [filteredFires, setFilteredFires] = useState([]);
-  const [locations, setLocations] = useState([]);
   const [coordinates, setCoordinates] = useState([]); 
+
+  function handleLocationsAndCoordinates(data) {
+    const fireLocations = locationsGenerator(data);
+    setCoordinates(coordinatesGenerator(fireLocations));
+  }
 
   useEffect(() => {
     async function fetchDataCyL() {
@@ -62,19 +67,15 @@ export function APIContextProvider({ children }) {
       setFires(data.results);
       setFireCount(data.total_count)
       setFiltersWithOptions(filterGenerator(filterFields, data.results));
-      setFilteredFires(filterFires(data.results, selectedFilters));
+      const filteredData = filterFires(data.results, selectedFilters);
+      setFilteredFires(filteredData);
+      handleLocationsAndCoordinates(filteredData);
     }
     fetchDataCyL();
+    localStorage.setItem('filters', JSON.stringify(selectedFilters))
   }, [, selectedFilters]); 
 
-  useEffect(() => {
-    localStorage.setItem('filters', JSON.stringify(selectedFilters))
-  }, [selectedFilters])
 
-  useEffect(() => {
-    setLocations(locationsGenerator(filteredFires.length > 0 ? filteredFires : fires)); 
-    setCoordinates(coordinatesGenerator(locations));
-  }, [,selectedFilters])
   return (
     <APIContext.Provider
       value={{
