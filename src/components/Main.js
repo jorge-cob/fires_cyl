@@ -10,7 +10,6 @@ function Main(props) {
     const { filteredFires, fires, coordinates } = useAPI();
     const [columns, setColumns] = useState([]);
 
-    //por qué?
     useEffect(() => {
         if (filteredFires.length > 0) {
             setColumns(columnGenerator(filteredFires))

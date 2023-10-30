@@ -9,8 +9,6 @@ import { useAPI } from '../services/apiContext';
 
 export default function Filter({ data }) {
   const { selectedFilters, setSelectedFilters } = useAPI();
-
-  //me lío aquí:
   const filterName = Object.keys(data)[0]; 
   const storedFilterValue = selectedFilters[filterName];
   const valueSet = Object.values(data)[0];

@@ -12,8 +12,6 @@ import { useAPI } from '../../services/apiContext';
 
 function FiresMap() {
   const { coordinates } = useAPI();
-  // const filteredFires = props.filteredFires; //array de arrays de coordenadas
-  // const isFilteredFires = filteredFires > 0 ? true : false;
 
   let DefaultIcon = L.icon({
     iconUrl: icon,
