@@ -18,28 +18,32 @@ function getInitialFiltersState() {
 
 function coordinatesGenerator(locations) {
     const coordinates = [];
-    locations.forEach((location) => {
-        async function fetchDataOsMapi(location) {
-            const encodedLocation = encodeURIComponent(location);
-            const apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodedLocation}`;
-                
-            try {
-              const { data } = await axios.get(apiUrl);
-              if (data.length > 0) {
-                console.log("api OPM working", data)
-                const firstResult = data[0];
-                const latitude = parseFloat(firstResult.lat);
-                const longitude = parseFloat(firstResult.lon);
-                console.log(`Coordinates: Latitude ${latitude}, Longitude ${longitude}`);
-                const fireCoordinates = [latitude, longitude];
-                coordinates.push(fireCoordinates);
-              }
-            } catch (error) {
-              console.error(error);
-            };
+    async function fetchDataOsMapi(location) {
+      const encodedLocation = encodeURIComponent(location);
+      const apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodedLocation}`;
+          
+      try {
+        const { data } = await axios.get(apiUrl);
+        if (data.length > 0) {
+          console.log("api OPM working", data)
+          const firstResult = data[0];
+          const latitude = parseFloat(firstResult.lat);
+          const longitude = parseFloat(firstResult.lon);
+          console.log(`Coordinates: Latitude ${latitude}, Longitude ${longitude}`);
+          const fireCoordinates = [latitude, longitude];
+          coordinates.push(fireCoordinates);
         }
-        fetchDataOsMapi(location);
-       
+      } catch (error) {
+        console.error(error);
+      };
+  }
+    let count = 0;
+    locations.forEach((location) => {
+      if (count <10) {
+        fetchDataOsMapi(location); 
+      count++;
+      }
+      
     });
     return coordinates;
 

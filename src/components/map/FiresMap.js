@@ -12,27 +12,13 @@ import { useAPI } from '../../services/apiContext';
 
 function FiresMap() {
   const { coordinates } = useAPI();
+  console.log('coordrrrrinates', coordinates);
   let DefaultIcon = L.icon({
     iconUrl: icon,
     shadowUrl: iconShadow
   });
 
   L.Marker.prototype.options.icon = DefaultIcon;
-
-  const markers = (coordinates) => {
-    if (coordinates.length == 0) { return; }
-       coordinates?.forEach(item => {
-         return (
-           <>
-             <Marker
-               position={item}
-               icon={DefaultIcon}
-             > 
-             </Marker>
-           </>
-         )
-       });
-    }
 
 
     return (
@@ -43,7 +29,14 @@ function FiresMap() {
         attribution='&copy; <a href="https://www.osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.osm.org/{z}/{x}/{y}.png"
       />
-    {markers(coordinates)}
+    {coordinates.forEach(item => {
+    <Marker
+    position={item}
+    icon={DefaultIcon}
+  > 
+  </Marker>
+    
+    })}
     </MapContainer>
   }
         
